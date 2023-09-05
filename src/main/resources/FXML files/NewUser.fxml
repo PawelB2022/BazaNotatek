@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewUserController">
+   <top>
+      <Label alignment="CENTER" text="Tworzenie nowego użytkownika" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="269.0" prefWidth="480.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane prefHeight="182.0" prefWidth="480.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Nazwa użytkownika:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="Nowe hasło:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtUsername" promptText="Username" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="txtPassword" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField fx:id="txtConfirmPassword" promptText="Confirm Password" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </PasswordField>
+                  <Label layoutX="10.0" layoutY="23.0" text="Potwierdź hasło:" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <Hyperlink alignment="CENTER" contentDisplay="CENTER" onAction="#switchToLogInScene" prefWidth="203.0" text="Zaloguj się" textAlignment="CENTER" underline="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Hyperlink>
+            <Label fx:id="inputNotifier" alignment="TOP_CENTER" prefHeight="55.0" prefWidth="382.0" text="default" textAlignment="CENTER" textFill="RED" wrapText="true">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <Pane prefHeight="200.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane prefHeight="200.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="78.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#addUserProcess" prefHeight="40.0" prefWidth="110.0" text="Utwórz">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

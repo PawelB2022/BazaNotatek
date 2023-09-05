@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="root" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="684.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NoteEditorController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Dokument">
+            <items>
+                  <MenuItem fx:id="newNoteMenuItem" mnemonicParsing="false" onAction="#newNoteAlert" text="Nowy" />
+                  <MenuItem fx:id="saveNoteMenuItem" mnemonicParsing="false" onAction="#saveNoteAction" text="Zapisz" />
+              <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeAlert" text="Zamknij edytor" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edycja">
+            <items>
+              <MenuItem fx:id="decreaseFontMenuItem" mnemonicParsing="false" onAction="#smallerFont" text="Zmniejsz czcionkę" />
+                  <MenuItem fx:id="increaseFontMenuItem" mnemonicParsing="false" onAction="#biggerFont" text="Zwiększ czcionkę" />
+            </items>
+          </Menu>
+            <Menu fx:id="categoriesMenu" mnemonicParsing="false" text="Kategorie">
+               <items>
+                  <CheckMenuItem fx:id="workCheckMenuItem" mnemonicParsing="false" text="Praca" />
+                  <CheckMenuItem fx:id="eventCheckMenuItem" mnemonicParsing="false" text="Wydarzenia" />
+                  <CheckMenuItem fx:id="otherCheckMenuItem" mnemonicParsing="false" text="Inne" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <HBox alignment="CENTER_LEFT" minHeight="45.0" prefHeight="45.0" prefWidth="600.0" spacing="30.0">
+         <children>
+            <Label minHeight="28.0" minWidth="110.0" text="Tytuł notatki:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="titleTextField" prefHeight="30.0" prefWidth="450.0">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+      <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="684.0" promptText="Treść..." VBox.vgrow="ALWAYS" />
+      <Label fx:id="inputNotifier" alignment="CENTER" prefHeight="41.0" prefWidth="382.0" text="default" textAlignment="CENTER" textFill="RED" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>
