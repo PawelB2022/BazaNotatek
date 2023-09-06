@@ -1,7 +1,7 @@
 package controllers;
 
 import entities.Note;
-import entities.NoteTable;
+import models.NoteTable;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -89,23 +89,6 @@ public class UserMenuController implements Initializable
         noteDateCreatedColumn.setCellValueFactory(cellData -> cellData.getValue().creationDateProperty());
         noteDateModifiedColumn.setCellValueFactory(cellData -> cellData.getValue().modifiedDateProperty());
         noteCategoryColumn.setCellValueFactory(cellData -> cellData.getValue().listOfCategoriesProperty());
-
-//        //Inicjonowanie typow dla kolumn w tabeli
-//        noteNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
-//        noteDateCreatedColumn.setCellValueFactory(cellData ->
-//        {
-//            LocalDateTime creationDate = cellData.getValue().getCreatedAt();
-//            String formattedCreationDate = creationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//            return new SimpleStringProperty(formattedCreationDate);
-//        });
-//        noteDateModifiedColumn.setCellValueFactory(cellData ->
-//        {
-//            LocalDateTime modifiedDate = cellData.getValue().getModifiedAt();
-//            String formattedModifiedDate = modifiedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//            return new SimpleStringProperty(formattedModifiedDate);
-//        });
-
-
     }
 
     public void setUsernameMenuText(String username)
@@ -176,6 +159,7 @@ public class UserMenuController implements Initializable
             SessionInfo.getInstance().setNoteEditedBool(true);
             SessionInfo.getInstance().setEditedNoteID(selectedNoteID);
             switchToNoteEditorScene(event);
+            //TODO: Nie odczytuje kategorii juz zapisanych w notatce
         }
         else
         {

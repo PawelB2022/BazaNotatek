@@ -1,10 +1,12 @@
-package entities;
+package models;
 
+import entities.Category;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Set;
 
 public class NoteTable
@@ -16,6 +18,7 @@ public class NoteTable
 
     private SimpleStringProperty listOfCategories = new SimpleStringProperty("");
 
+    private Set<Category> unprocessedListOfCategories = new HashSet<>();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public NoteTable()
@@ -28,6 +31,7 @@ public class NoteTable
         setTitle(title);
         setCreationDate(creationDate.format(formatter));
         setModifiedDate(modifiedDate.format(formatter));
+        setUnprocessedListOfCategories(listOfCategories);
 
         if( !listOfCategories.isEmpty() )
         {
@@ -118,6 +122,10 @@ public class NoteTable
     {
         this.listOfCategories.set(listOfCategories);
     }
+
+    public Set<Category> getUnprocessedListOfCategories() { return unprocessedListOfCategories; }
+
+    public void setUnprocessedListOfCategories(Set<Category> unprocessedListOfCategories) { this.unprocessedListOfCategories = unprocessedListOfCategories; }
 
     @Override
     public String toString()

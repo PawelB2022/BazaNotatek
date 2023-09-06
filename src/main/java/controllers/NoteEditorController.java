@@ -212,6 +212,18 @@ public class NoteEditorController implements Initializable
             else                        editedNote.setTitle(titleString);
             editedNote.setModifiedAt(LocalDateTime.now());
             editedNote.setContent(textArea.getText());
+            //Dodawanie i usuwanie kategorii
+            for (MenuItem item : categoriesMenu.getItems())
+            {
+                if(item instanceof CheckMenuItem)
+                {
+                    CheckMenuItem checkItem = ((CheckMenuItem) item);
+                    if(checkItem.isSelected() == true)
+                    {
+                        editedNote.addCategory((Category) checkItem.getUserData());
+                    }
+                }
+            }
 
             System.out.println("Edytowana notaka:" + editedNote);
             if(noteService.update(SessionInfo.getInstance().getEditedNoteID(),editedNote))

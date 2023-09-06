@@ -165,6 +165,7 @@ public class NoteService
             note.setTitle(updatedNote.getTitle());
             note.setModifiedAt(updatedNote.getModifiedAt());
             note.setContent(updatedNote.getContent());
+            note.setCategories(updatedNote.getCategories());
             entityManager.merge(note);
 
             transaction.commit();
