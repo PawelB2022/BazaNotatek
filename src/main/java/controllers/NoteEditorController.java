@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Category;
 import entities.Note;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -84,7 +85,6 @@ public class NoteEditorController implements Initializable
         items.get(0).setUserData(categoryService.findOne(1));
         items.get(1).setUserData(categoryService.findOne(2));
         items.get(2).setUserData(categoryService.findOne(3));
-        System.out.println("Test: " + items.get(0).getUserData().toString());
     }
 
     @FXML
@@ -175,9 +175,10 @@ public class NoteEditorController implements Initializable
                 if(item instanceof CheckMenuItem)
                 {
                     CheckMenuItem checkItem = ((CheckMenuItem) item);
+//                    System.out.println("Czy CheckMenuItem jest zaznaczony?: " + checkItem.isSelected());
                     if(checkItem.isSelected() == true)
                     {
-                        //TODO
+                        newNote.addCategory((Category) checkItem.getUserData());
 
                     }
                 }

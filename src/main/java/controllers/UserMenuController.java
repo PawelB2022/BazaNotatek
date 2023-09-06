@@ -169,7 +169,7 @@ public class UserMenuController implements Initializable
     @FXML
     protected void modifyNote(ActionEvent event) throws  IOException
     {
-        //TODO: Czy dziala poprawnie dla wielowierszowego zaznaczenia?
+        //NOTICE: Czy dziala poprawnie dla wielowierszowego zaznaczenia?
         int selectedNoteID = getSelectedRowNoteId();
         if(selectedNoteID > 0)
         {

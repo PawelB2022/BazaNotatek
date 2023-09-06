@@ -96,10 +96,7 @@ public class Note
         this.modifiedAt = modifiedAt;
     }
 
-    public Set<Category> getCategories()
-    {
-        return categories;
-    }
+    public Set<Category> getCategories() { return categories; }
 
     public void setCategories(Set<Category> categories)
     {
