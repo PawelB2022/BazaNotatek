@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Note;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import models.CategoryService;
 import models.NoteService;
 import models.UserService;
 import session.SessionInfo;
@@ -18,7 +20,6 @@ import session.SessionInfo;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class NoteEditorController implements Initializable
@@ -48,7 +49,7 @@ public class NoteEditorController implements Initializable
     @FXML
     private Menu categoriesMenu;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    CategoryService categoryService = new CategoryService();
 
     public void setStage(Stage stage)
     {
@@ -75,6 +76,15 @@ public class NoteEditorController implements Initializable
             textArea.setText(editedNote.getContent());
             //TODO: Zaznaczyć kategorie
         }
+    }
+
+    protected void assignMenuItemValues()
+    {
+        ObservableList<MenuItem> items = categoriesMenu.getItems();
+        items.get(0).setUserData(categoryService.findOne(1));
+        items.get(1).setUserData(categoryService.findOne(2));
+        items.get(2).setUserData(categoryService.findOne(3));
+        System.out.println("Test: " + items.get(0).getUserData().toString());
     }
 
     @FXML
@@ -154,11 +164,24 @@ public class NoteEditorController implements Initializable
         {
             Note newNote = new Note();
             if (titleString.isBlank())  newNote.setTitle("default");
-            else                        newNote.setTitle(titleString);
+            else newNote.setTitle(titleString);
             newNote.setUser( (userService.findOne(SessionInfo.getInstance().getUserID())) );
             newNote.setCreatedAt(LocalDateTime.now());
             newNote.setModifiedAt(LocalDateTime.now());
             newNote.setContent(textArea.getText());
+            //Dodawanie i usuwanie kategorii
+            for (MenuItem item : categoriesMenu.getItems())
+            {
+                if(item instanceof CheckMenuItem)
+                {
+                    CheckMenuItem checkItem = ((CheckMenuItem) item);
+                    if(checkItem.isSelected() == true)
+                    {
+                        //TODO
+
+                    }
+                }
+            }
 
             System.out.println("Nowo stworzona notaka:" + newNote);
             if(noteService.createNew(newNote))
@@ -242,9 +265,9 @@ public class NoteEditorController implements Initializable
         else
         {
             inputNotifier.setText("Edycja istniejacej notatki.");
-            //TODO: Pobieranie informacji istniejacej notatki
+            //TODO: Pobieranie informacji o istniejacej notatce
         }
-
+        assignMenuItemValues();
     }
 
 }

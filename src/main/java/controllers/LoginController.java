@@ -117,6 +117,7 @@ public class LoginController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         inputNotifier.setText("");
+        //Ograniczenie znakow dla nazwy uzytkownika
         txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\w*"))
             {

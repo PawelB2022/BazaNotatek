@@ -96,12 +96,14 @@ public class NewUserController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        //Ograniczenie znakow dla nazwy uzytkownika
         txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\w*"))
             {
                 txtUsername.setText(oldValue); // Revert to the previous value
             }
         });
+
         inputNotifier.setText("");
     }
 }

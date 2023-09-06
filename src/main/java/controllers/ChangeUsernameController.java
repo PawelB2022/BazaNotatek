@@ -104,13 +104,14 @@ public class ChangeUsernameController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         setCurrentUsernameText(SessionInfo.getInstance().getUsername());
+        //Ograniczenie znakow dla nazwy uzytkownika
         txtNewUsername.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\w*"))
             {
                 txtNewUsername.setText(oldValue); // Revert to the previous value
             }
         });
-        inputNotifier.setText("");
 
+        inputNotifier.setText("");
     }
 }

@@ -106,17 +106,17 @@ public class Note
         this.categories = categories;
     }
 
-//    public void addCategory(Category cat)
-//    {
-//        this.categories.add(cat);
-//        cat.getCategories().add(this);
-//    }
-//
-//    public void removeCategory(Category cat)
-//    {
-//        this.categories.remove(cat);
-//        cat.getCategories().remove(this);
-//    }
+    public void addCategory(Category cat)
+    {
+        this.categories.add(cat);
+        cat.getNotes().add(this);
+    }
+
+    public void removeCategory(Category cat)
+    {
+        this.categories.remove(cat);
+        cat.getNotes().remove(this);
+    }
 
     @Override
     public String toString()
