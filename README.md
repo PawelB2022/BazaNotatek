@@ -1,5 +1,4 @@
 # BazaNotatek
-pierwszyCommit
 
 Projekt zrobiony w wersji nie-modularnej. Żeby projekt mógł się uruchomić należy w Intellij skonfigurować "Run configuration",
 zrobić "Add VM options" i wpisać w odpowiednie pole --module-path "twoja_sciezka" --add-modules javafx.controls,javafx.fxml"
