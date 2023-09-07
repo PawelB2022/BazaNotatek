@@ -66,7 +66,6 @@ public class NoteService
             Query query = entityManager.createQuery("SELECT a.title, a.createdAt, a.modifiedAt, a.id FROM Note a JOIN User b ON a.user = b.id WHERE b.name = :currentUser")
                     .setParameter("currentUser", currentUser);
             List<Object[]> rows = query.getResultList();
-//            System.out.println("Result list: " + rows);
 
             for(Object[] row : rows)
             {
@@ -167,6 +166,30 @@ public class NoteService
             note.setContent(updatedNote.getContent());
             note.setCategories(updatedNote.getCategories());
             entityManager.merge(note);
+
+            transaction.commit();
+        } catch (Exception e)
+        {
+            result = false;
+            if(transaction != null) transaction.rollback();
+        }
+        return result;
+    }
+
+    public boolean delete(int id)
+    {
+        boolean result = true;
+        EntityManager entityManager;
+        EntityTransaction transaction = null;
+        try
+        {
+            entityManager = managerFactory.createEntityManager();
+            Note note = entityManager.find(Note.class,id);
+
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            entityManager.remove(note);
 
             transaction.commit();
         } catch (Exception e)

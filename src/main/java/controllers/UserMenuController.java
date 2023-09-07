@@ -62,7 +62,7 @@ public class UserMenuController implements Initializable
     @FXML
     protected void populateTable()
     {
-        System.out.println("Username: " + this.username);
+//        System.out.println("Username: " + this.username);
         list.clear();
 
         System.out.println("Dodawanie listy do tabeli...");
@@ -77,7 +77,7 @@ public class UserMenuController implements Initializable
                     nT.getModifiedAt(),
                     nT.getCategories()
             );
-            System.out.println(newNote);
+//            System.out.println(newNote);
             list.add(newNote);
         }
     }
@@ -95,8 +95,6 @@ public class UserMenuController implements Initializable
     {
         this.username = username;
         userMenu.setText(username);
-        System.out.println("Username parameter: " + username);
-        System.out.println("this -> Username: " + this.username);
     }
 
     protected void onComboSearchMethodValueChanged()
@@ -150,7 +148,7 @@ public class UserMenuController implements Initializable
     }
 
     @FXML
-    protected void modifyNote(ActionEvent event) throws  IOException
+    protected void modifyNote(ActionEvent event) throws IOException
     {
         //NOTICE: Czy dziala poprawnie dla wielowierszowego zaznaczenia?
         int selectedNoteID = getSelectedRowNoteId();
@@ -159,11 +157,31 @@ public class UserMenuController implements Initializable
             SessionInfo.getInstance().setNoteEditedBool(true);
             SessionInfo.getInstance().setEditedNoteID(selectedNoteID);
             switchToNoteEditorScene(event);
-            //TODO: Nie odczytuje kategorii juz zapisanych w notatce
         }
         else
         {
-            System.out.println("Brak zaznaczenia.");
+            System.out.println("Modify: Brak zaznaczenia.");
+        }
+    }
+
+    @FXML
+    protected void deleteNote(ActionEvent event) throws IOException
+    {
+        int selectedNoteID = getSelectedRowNoteId();
+        if(selectedNoteID > 0)
+        {
+            if (deleteNoteAlert(event) == true)
+            {
+                if(noteService.delete(selectedNoteID) == true)
+                {
+                    NoteTable selectedNote = tableView.getSelectionModel().getSelectedItem();
+                    list.remove(selectedNote);
+                }
+            }
+        }
+        else
+        {
+            System.out.println("Delete: Brak zaznaczenia.");
         }
     }
 
@@ -179,6 +197,21 @@ public class UserMenuController implements Initializable
             return id;
         }
         else return -1;
+    }
+
+    @FXML
+    protected boolean deleteNoteAlert(ActionEvent event) throws IOException
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Usuwanie notatki");
+        alert.setHeaderText("Czy na pewno usunąć wybraną notatkę?");
+        alert.setContentText("Niezapisane zmiany zostaną utracone.");
+
+        if (alert.showAndWait().get() == ButtonType.OK)
+        {
+            return true;
+        }
+        else return false;
     }
 
     @FXML

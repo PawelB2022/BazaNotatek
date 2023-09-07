@@ -81,6 +81,7 @@ public class NoteEditorController implements Initializable
         {
             titleTextField.setText(editedNote.getTitle());
             textArea.setText(editedNote.getContent());
+            //TODO: Pobieranie informacji o nazwie istniejacej notatki
 
             //Zaznaczenie obecnych kategorii w notatce
             Set<Category> setCategories = editedNote.getCategories();
@@ -296,7 +297,6 @@ public class NoteEditorController implements Initializable
         else
         {
             inputNotifier.setText("Edycja istniejacej notatki.");
-            //TODO: Pobieranie informacji o istniejacej notatce
         }
     }
 
