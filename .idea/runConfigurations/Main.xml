@@ -2,7 +2,6 @@
   <configuration default="false" name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="controllers.Main" />
     <module name="BazaNotatek" />
-    <option name="VM_PARAMETERS" value="--module-path &quot;F:\IntelliJ Projects\BazaNotatek\sdk library\javafx-sdk-20.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="controllers.*" />
