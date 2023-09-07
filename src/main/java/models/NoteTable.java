@@ -15,14 +15,13 @@ public class NoteTable
     private SimpleStringProperty title = new SimpleStringProperty("");
     private SimpleStringProperty creationDate = new SimpleStringProperty("");
     private SimpleStringProperty modifiedDate = new SimpleStringProperty("");
-
     private SimpleStringProperty listOfCategories = new SimpleStringProperty("");
 
-    private Set<Category> unprocessedListOfCategories = new HashSet<>();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public NoteTable()
     {
+
     }
 
     public NoteTable(int noteID, String title, LocalDateTime creationDate, LocalDateTime modifiedDate, Set<Category> listOfCategories)
@@ -31,7 +30,6 @@ public class NoteTable
         setTitle(title);
         setCreationDate(creationDate.format(formatter));
         setModifiedDate(modifiedDate.format(formatter));
-        setUnprocessedListOfCategories(listOfCategories);
 
         if( !listOfCategories.isEmpty() )
         {
@@ -122,10 +120,6 @@ public class NoteTable
     {
         this.listOfCategories.set(listOfCategories);
     }
-
-    public Set<Category> getUnprocessedListOfCategories() { return unprocessedListOfCategories; }
-
-    public void setUnprocessedListOfCategories(Set<Category> unprocessedListOfCategories) { this.unprocessedListOfCategories = unprocessedListOfCategories; }
 
     @Override
     public String toString()

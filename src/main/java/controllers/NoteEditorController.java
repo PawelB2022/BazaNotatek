@@ -21,7 +21,10 @@ import session.SessionInfo;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class NoteEditorController implements Initializable
 {
@@ -66,6 +69,9 @@ public class NoteEditorController implements Initializable
                 throw new RuntimeException(e);
             }
         });
+
+        //Przypisanie wartosci dla CheckMenuItem
+        assignMenuItemValues();
     }
 
     @FXML
@@ -75,7 +81,19 @@ public class NoteEditorController implements Initializable
         {
             titleTextField.setText(editedNote.getTitle());
             textArea.setText(editedNote.getContent());
-            //TODO: Zaznaczyć kategorie
+
+            //Zaznaczenie obecnych kategorii w notatce
+            Set<Category> setCategories = editedNote.getCategories();
+            for (MenuItem item : categoriesMenu.getItems())
+            {
+                if(item instanceof CheckMenuItem)
+                {
+                    CheckMenuItem checkItem = ((CheckMenuItem) item);
+                    Category checkedCategory = (Category) checkItem.getUserData();
+                    boolean isSelected = setCategories.contains(checkedCategory);
+                    checkItem.setSelected(isSelected);
+                }
+            }
         }
     }
 
@@ -280,7 +298,6 @@ public class NoteEditorController implements Initializable
             inputNotifier.setText("Edycja istniejacej notatki.");
             //TODO: Pobieranie informacji o istniejacej notatce
         }
-        assignMenuItemValues();
     }
 
 }

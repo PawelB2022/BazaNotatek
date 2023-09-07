@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -47,6 +48,21 @@ public class Category
     public void setNotes(Set<Note> notes)
     {
         this.notes = notes;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) && Objects.equals(categoryName, category.categoryName);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, categoryName);
     }
 
     @Override
