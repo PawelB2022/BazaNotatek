@@ -1,6 +1,8 @@
 package controllers;
 
 import entities.Note;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import models.NoteTable;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -121,6 +123,7 @@ public class UserMenuController implements Initializable
 
         datePicker.setVisible(false);
         datePicker.setDisable(true);
+        datePicker.setValue(null);
     }
 
     protected void switchToDatePicker()
@@ -131,6 +134,7 @@ public class UserMenuController implements Initializable
 
         nameTextField.setVisible(false);
         nameTextField.setDisable(true);
+        nameTextField.setText("");
     }
 
     @FXML
@@ -288,6 +292,41 @@ public class UserMenuController implements Initializable
         stage.show();
     }
 
+    @FXML
+    protected void bindNameTextFieldFilter()
+    {
+        FilteredList<NoteTable> filteredData = new FilteredList<>(list, b -> true);
+        nameTextField.textProperty().addListener((options, oldValue, newValue) ->
+        {
+            filteredData.setPredicate(noteTable -> {
+                if(newValue.isEmpty() || newValue.isBlank() || newValue == null)
+                {
+                    return true;
+                }
+
+                String searchKeyword = newValue.toLowerCase();
+
+                if (noteTable.getTitle().toLowerCase().indexOf(searchKeyword) > -1)
+                {
+                    return true;
+                }
+                else return false;
+            });
+        });
+
+        SortedList<NoteTable> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        tableView.setItems(sortedData);
+    }
+
+    @FXML
+    protected void bindDatePickerFilter()
+    {
+
+    }
+
 
     @FXML
     protected void closeApp(ActionEvent event) throws IOException
@@ -313,8 +352,11 @@ public class UserMenuController implements Initializable
         });
 
         setTableCells();
-
         tableView.setItems(list);
         populateTable();
+
+        //Filtrowanie TableView
+        bindNameTextFieldFilter();
+
     }
 }
