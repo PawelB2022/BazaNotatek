@@ -58,6 +58,7 @@ public class UserMenuController implements Initializable
     private Button addNewNoteButton;
 
     private NoteService noteService = new NoteService();
+    private UserService userService = new UserService();
     private ObservableList<NoteTable> list = FXCollections.observableArrayList();
 
     @FXML
@@ -206,7 +207,33 @@ public class UserMenuController implements Initializable
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usuwanie notatki");
         alert.setHeaderText("Czy na pewno usunąć wybraną notatkę?");
-        alert.setContentText("Niezapisane zmiany zostaną utracone.");
+//        alert.setContentText("Niezapisane zmiany zostaną utracone.");
+
+        if (alert.showAndWait().get() == ButtonType.OK)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    @FXML
+    protected void deleteUserAndData(ActionEvent event) throws IOException
+    {
+        if(deleteUserAlert(event) == true)
+        {
+            userService.deleteUserAndDataService(SessionInfo.getInstance().getUserID());
+            logOut(event);
+            System.out.println("Usuniecie usera i danych");
+        }
+    }
+
+    @FXML
+    protected boolean deleteUserAlert(ActionEvent event) throws IOException
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Usuwanie profilu");
+        alert.setHeaderText("Czy na pewno usunąć profil użytkonika: " + SessionInfo.getInstance().getUsername() + " ?");
+        alert.setContentText("Wszystkie powiązane z tym profilem notatki także zostaną usunięte.");
 
         if (alert.showAndWait().get() == ButtonType.OK)
         {
@@ -259,18 +286,6 @@ public class UserMenuController implements Initializable
         stage = (Stage)root.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-    }
-
-
-    private UserService userService = new UserService();
-
-    @FXML
-    protected void deleteUserAndData(ActionEvent event) throws IOException
-    {
-        userService.deleteUserAndDataService(SessionInfo.getInstance().getUserID());
-        switchToLogInScene(event);
-        SessionInfo.getInstance().clearSession();
-        System.out.println("Usuniecie usera i danych");
     }
 
 
