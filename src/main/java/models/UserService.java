@@ -1,6 +1,7 @@
 package models;
 
 import controllers.Main;
+import entities.Note;
 import entities.User;
 
 import javax.persistence.EntityManager;
@@ -203,4 +204,28 @@ public class UserService
         }
         return result;
     }
+
+    public void deleteUserAndDataService(int userId) {
+        EntityManager entityManager;
+        entityManager = managerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+
+            // Pobierz użytkownika do usunięcia
+            User user = entityManager.find(User.class, userId);
+
+            if (user != null) {
+                // Usuń użytkownika
+                entityManager.remove(user);
+                transaction.commit();
+            }
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
 }

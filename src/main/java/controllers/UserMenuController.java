@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import models.NoteService;
+import models.UserService;
 import session.SessionInfo;
 
 import java.io.IOException;
@@ -259,6 +260,19 @@ public class UserMenuController implements Initializable
         stage.setScene(scene);
         stage.show();
     }
+
+
+    private UserService userService = new UserService();
+
+    @FXML
+    protected void deleteUserAndData(ActionEvent event) throws IOException
+    {
+        userService.deleteUserAndDataService(SessionInfo.getInstance().getUserID());
+        switchToLogInScene(event);
+        SessionInfo.getInstance().clearSession();
+        System.out.println("Usuniecie usera i danych");
+    }
+
 
     @FXML
     protected void closeApp(ActionEvent event) throws IOException
