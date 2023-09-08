@@ -206,7 +206,7 @@ public class UserMenuController implements Initializable
         {
             NoteTable selectedNoteRow = selectionModel.getSelectedItem();
             int id = selectedNoteRow.getNoteID();
-            System.out.println("selectedNoteRow: " + selectedNoteRow);
+//            System.out.println("selectedNoteRow: " + selectedNoteRow);
             return id;
         }
         else return -1;
@@ -233,8 +233,8 @@ public class UserMenuController implements Initializable
         if(deleteUserAlert(event) == true)
         {
             userService.deleteUserAndDataService(SessionInfo.getInstance().getUserID());
+            System.out.println("Usunieto uzytkownika i jego notatki.");
             logOut(event);
-            System.out.println("Usuniecie usera i danych");
         }
     }
 
@@ -300,106 +300,12 @@ public class UserMenuController implements Initializable
     }
 
     @FXML
-    protected void bindNameTextFieldFilter()
-    {
-        FilteredList<NoteTable> filteredData = new FilteredList<>(list, b -> true);
-        nameTextField.textProperty().addListener((options, oldValue, newValue) ->
-        {
-            filteredData.setPredicate(noteTable -> {
-                if(newValue.isEmpty() || newValue.isBlank() || newValue == null)
-                {
-                    return true;
-                }
-
-                String searchKeyword = newValue.toLowerCase();
-
-                if (noteTable.getTitle().toLowerCase().indexOf(searchKeyword) > -1)
-                {
-                    return true;
-                }
-                else return false;
-            });
-        });
-
-        SortedList<NoteTable> sortedData = new SortedList<>(filteredData);
-
-        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
-
-        tableView.setItems(sortedData);
-    }
-
-    @FXML
-    protected void bindDatePickerFilter()
-    {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        FilteredList<NoteTable> filteredData = new FilteredList<>(list, b -> true);
-        datePicker.valueProperty().addListener((options, oldValue, newValue) ->
-        {
-            filteredData.setPredicate(noteTable -> {
-                if(newValue == null)
-                {
-                    return true;
-                }
-
-                String searchKeyword = newValue.format(dateFormatter);
-
-                if (noteTable.getCreationDate().toLowerCase().indexOf(searchKeyword) > -1 && comboSearchMethod.getValue().equals(searchOptions[1]))
-                {
-                    return true;
-                }
-                else if (noteTable.getModifiedDate().toLowerCase().indexOf(searchKeyword) > -1 && comboSearchMethod.getValue().equals(searchOptions[2]))
-                {
-                    return true;
-                }
-                else return false;
-            });
-        });
-
-        SortedList<NoteTable> sortedData = new SortedList<>(filteredData);
-
-        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
-
-        tableView.setItems(sortedData);
-    }
-
-
-    @FXML
     protected void closeApp(ActionEvent event) throws IOException
     {
         //Alternatywna metoda zamykania
 //        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 //        stage.close();
         Platform.exit();
-    }
-
-    @FXML
-    private void handleTextFieldChange(KeyEvent event)
-    {
-        String searchText = nameTextField.getText().toLowerCase();
-        if (searchText.isEmpty()) {
-            // Jeśli pole jest puste, przywróć normalne wygląd wierszy
-            populateTable();
-            tableView.setItems(list);
-        } else {
-            // Jeśli pole nie jest puste, podświetl wiersze zawierające szukany tekst
-            ObservableList<NoteTable> filteredList = list.filtered(noteTable -> noteTable.getTitle().toLowerCase().contains(searchText));
-            tableView.setItems(filteredList);
-        }
-    }
-
-    @FXML
-    private void handleDataPickerChange(KeyEvent event)
-    {
-        String searchText = nameTextField.getText().toLowerCase();
-        if (searchText.isEmpty()) {
-            // Jeśli pole jest puste, przywróć normalne wygląd wierszy
-            populateTable();
-            tableView.setItems(list);
-        } else {
-            // Jeśli pole nie jest puste, podświetl wiersze zawierające szukany tekst
-            ObservableList<NoteTable> filteredList = list.filtered(noteTable -> noteTable.getTitle().toLowerCase().contains(searchText));
-            tableView.setItems(filteredList);
-        }
     }
 
     @FXML
@@ -436,7 +342,7 @@ public class UserMenuController implements Initializable
                 }
                 else return false;
             });
-            System.out.println("Text changed to: " + newValue);
+//            System.out.println("Text changed to: " + newValue);
         });
     }
 
@@ -464,7 +370,7 @@ public class UserMenuController implements Initializable
                 }
                 else return false;
             });
-            System.out.println("Date changed to: " + newValue);
+//            System.out.println("Date changed to: " + newValue);
         });
     }
 
@@ -488,7 +394,5 @@ public class UserMenuController implements Initializable
 
         //Filtrowanie TableView
         bindFilter();
-//        bindNameTextFieldFilter();
-//        bindDatePickerFilter();
     }
 }

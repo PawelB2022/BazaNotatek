@@ -244,7 +244,7 @@ public class NoteEditorController implements Initializable
                 }
             }
 
-            System.out.println("Edytowana notaka:" + editedNote);
+//            System.out.println("Edytowana notaka:" + editedNote);
             if(noteService.update(SessionInfo.getInstance().getEditedNoteID(),editedNote))
             {
                 inputNotifier.setText("Zapisano pod nazwą: " + titleTextField.getText());

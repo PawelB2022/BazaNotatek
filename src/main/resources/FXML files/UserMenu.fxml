@@ -65,7 +65,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="modifyNoteButton" alignment="CENTER" layoutX="197.0" layoutY="40.0" mnemonicParsing="false" onAction="#modifyNote" prefHeight="40.0" prefWidth="110.0" text="Edytuj">
+            <Button fx:id="modifyNoteButton" alignment="CENTER" layoutX="197.0" layoutY="40.0" mnemonicParsing="false" onAction="#modifyNote" prefHeight="40.0" prefWidth="110.0" text="Otwórz">
                <font>
                   <Font size="18.0" />
                </font>

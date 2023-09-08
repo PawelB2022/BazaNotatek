@@ -205,27 +205,30 @@ public class UserService
         return result;
     }
 
-    public void deleteUserAndDataService(int userId) {
+    public boolean deleteUserAndDataService(int userId)
+    {
+        boolean result = true;
         EntityManager entityManager;
-        entityManager = managerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = null;
         try {
+            entityManager = managerFactory.createEntityManager();
+            transaction = entityManager.getTransaction();
             transaction.begin();
 
             // Pobierz użytkownika do usunięcia
             User user = entityManager.find(User.class, userId);
 
-            if (user != null) {
-                // Usuń użytkownika
-                entityManager.remove(user);
-                transaction.commit();
-            }
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+            // Usuń użytkownika
+            entityManager.remove(user);
+
+            transaction.commit();
+        } catch (Exception e)
+        {
+            result = false;
+            if(transaction != null) transaction.rollback();
+//            e.printStackTrace();
         }
+        return result;
     }
 
 }
