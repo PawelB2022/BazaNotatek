@@ -3,6 +3,7 @@ package controllers;
 import entities.Note;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.scene.input.KeyEvent;
 import models.NoteTable;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -21,6 +22,8 @@ import session.SessionInfo;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -120,6 +123,7 @@ public class UserMenuController implements Initializable
         nameTextField.setVisible(true);
         nameTextField.setDisable(false);
         nameTextField.toFront();
+        nameTextField.setText("");
 
         datePicker.setVisible(false);
         datePicker.setDisable(true);
@@ -131,6 +135,9 @@ public class UserMenuController implements Initializable
         datePicker.setVisible(true);
         datePicker.setDisable(false);
         datePicker.toFront();
+        LocalDate datePickerValue = datePicker.getValue();
+        datePicker.setValue(null);
+        datePicker.setValue(datePickerValue);
 
         nameTextField.setVisible(false);
         nameTextField.setDisable(true);
@@ -324,7 +331,35 @@ public class UserMenuController implements Initializable
     @FXML
     protected void bindDatePickerFilter()
     {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        FilteredList<NoteTable> filteredData = new FilteredList<>(list, b -> true);
+        datePicker.valueProperty().addListener((options, oldValue, newValue) ->
+        {
+            filteredData.setPredicate(noteTable -> {
+                if(newValue == null)
+                {
+                    return true;
+                }
 
+                String searchKeyword = newValue.format(dateFormatter);
+
+                if (noteTable.getCreationDate().toLowerCase().indexOf(searchKeyword) > -1 && comboSearchMethod.getValue().equals(searchOptions[1]))
+                {
+                    return true;
+                }
+                else if (noteTable.getModifiedDate().toLowerCase().indexOf(searchKeyword) > -1 && comboSearchMethod.getValue().equals(searchOptions[2]))
+                {
+                    return true;
+                }
+                else return false;
+            });
+        });
+
+        SortedList<NoteTable> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        tableView.setItems(sortedData);
     }
 
 
@@ -335,6 +370,102 @@ public class UserMenuController implements Initializable
 //        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 //        stage.close();
         Platform.exit();
+    }
+
+    @FXML
+    private void handleTextFieldChange(KeyEvent event)
+    {
+        String searchText = nameTextField.getText().toLowerCase();
+        if (searchText.isEmpty()) {
+            // Jeśli pole jest puste, przywróć normalne wygląd wierszy
+            populateTable();
+            tableView.setItems(list);
+        } else {
+            // Jeśli pole nie jest puste, podświetl wiersze zawierające szukany tekst
+            ObservableList<NoteTable> filteredList = list.filtered(noteTable -> noteTable.getTitle().toLowerCase().contains(searchText));
+            tableView.setItems(filteredList);
+        }
+    }
+
+    @FXML
+    private void handleDataPickerChange(KeyEvent event)
+    {
+        String searchText = nameTextField.getText().toLowerCase();
+        if (searchText.isEmpty()) {
+            // Jeśli pole jest puste, przywróć normalne wygląd wierszy
+            populateTable();
+            tableView.setItems(list);
+        } else {
+            // Jeśli pole nie jest puste, podświetl wiersze zawierające szukany tekst
+            ObservableList<NoteTable> filteredList = list.filtered(noteTable -> noteTable.getTitle().toLowerCase().contains(searchText));
+            tableView.setItems(filteredList);
+        }
+    }
+
+    @FXML
+    protected void bindFilter()
+    {
+        FilteredList<NoteTable> filteredData = new FilteredList<>(list, b -> true);
+
+        addNameTextFieldListener(filteredData);
+        addDataPickerListener(filteredData);
+
+        SortedList<NoteTable> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        tableView.setItems(sortedData);
+    }
+
+    @FXML
+    protected void addNameTextFieldListener(FilteredList<NoteTable> filteredData)
+    {
+        nameTextField.textProperty().addListener((options, oldValue, newValue) ->
+        {
+            filteredData.setPredicate(noteTable -> {
+                if(newValue.isEmpty() || newValue.isBlank() || newValue == null)
+                {
+                    return true;
+                }
+
+                String searchKeyword = newValue.toLowerCase();
+
+                if (noteTable.getTitle().toLowerCase().indexOf(searchKeyword) > -1)
+                {
+                    return true;
+                }
+                else return false;
+            });
+            System.out.println("Text changed to: " + newValue);
+        });
+    }
+
+    @FXML
+    protected void addDataPickerListener(FilteredList<NoteTable> filteredData)
+    {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        datePicker.valueProperty().addListener((options, oldValue, newValue) ->
+        {
+            filteredData.setPredicate(noteTable -> {
+                if(newValue == null)
+                {
+                    return true;
+                }
+
+                String searchKeyword = newValue.format(dateFormatter);
+
+                if (noteTable.getCreationDate().toLowerCase().indexOf(searchKeyword) > -1 && comboSearchMethod.getValue().equals(searchOptions[1]))
+                {
+                    return true;
+                }
+                else if (noteTable.getModifiedDate().toLowerCase().indexOf(searchKeyword) > -1 && comboSearchMethod.getValue().equals(searchOptions[2]))
+                {
+                    return true;
+                }
+                else return false;
+            });
+            System.out.println("Date changed to: " + newValue);
+        });
     }
 
     @Override
@@ -356,7 +487,8 @@ public class UserMenuController implements Initializable
         populateTable();
 
         //Filtrowanie TableView
-        bindNameTextFieldFilter();
-
+        bindFilter();
+//        bindNameTextFieldFilter();
+//        bindDatePickerFilter();
     }
 }
